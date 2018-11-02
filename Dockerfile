@@ -37,18 +37,21 @@ RUN \
 # ユーザから特権を剥奪する
 RUN rm /etc/sudoers.d/temp
 
-# 作業環境構築
-RUN rm -f /home/username/.bash*
-RUN \
-  sudo -u username git clone https://github.com/yantene/config /home/username/.config;\
-  sudo -u username ln -s /home/username/.config/zsh/.zshenv /home/username/.zshenv
-RUN chsh -s /bin/zsh username
+# システム設定
 RUN \
   sed -i 's/^#\(ja_JP.UTF-8 UTF-8.*\)$/\1/g' /etc/locale.gen;\
   sed -i 's/^#\(en_US.UTF-8 UTF-8.*\)$/\1/g' /etc/locale.gen;\
   echo 'LANG=ja_JP.UTF-8' > /etc/locale.conf;\
   locale-gen
-RUN ln -sf /usr/share/zone/info/Asia/Tokyo /etc/localtime
+RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+# 作業環境構築
+RUN chsh -s /bin/zsh username
+RUN rm -f /home/username/.bash*
+RUN \
+  sudo -u username git clone https://github.com/yantene/config /home/username/.config;\
+  sudo -u username ln -s /home/username/.config/zsh/.zshenv /home/username/.zshenv
+
 
 EXPOSE 22
 ENTRYPOINT ["/usr/bin/su", "-", "username"]
