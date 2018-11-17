@@ -12,7 +12,7 @@ RUN \
 # 必要最低限のパッケージインストール
 RUN \
   pacman -Syy --noconfirm;\
-  pacman -S --noconfirm git go wget zsh tmux
+  pacman -S --noconfirm git go wget zsh
 
 # ユーザに一時的に特権を与える
 RUN \
@@ -27,7 +27,7 @@ RUN \
   pacman -U --noconfirm ./yay*.pkg.tar.xz
 
 # 普段の作業に必要なパッケージのインストール
-RUN pacman -S --noconfirm neovim python-neovim python2-neovim hub tmux the_silver_searcher
+RUN pacman -S --noconfirm neovim python-neovim python2-neovim hub tmux the_silver_searcher dropbear
 RUN \
   cd `sudo -u username mktemp -d`;\
   curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/peco.tar.gz | sudo -u username tar zxf - --strip=1;\
@@ -52,6 +52,5 @@ RUN \
   sudo -u username git clone https://github.com/yantene/config /home/username/.config;\
   sudo -u username ln -s /home/username/.config/zsh/.zshenv /home/username/.zshenv
 
-
 EXPOSE 22
-ENTRYPOINT ["/usr/bin/su", "-", "username"]
+ENTRYPOINT ["/usr/bin/dropbear", "-F", "-P", "/run/dropbear.pid", "-R"]
