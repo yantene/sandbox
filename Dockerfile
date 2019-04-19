@@ -26,16 +26,19 @@ RUN \
   sudo -u user makepkg --noconfirm;\
   pacman -U --noconfirm ./yay*.pkg.tar.xz
 
-# 普段の作業に必要なパッケージのインストール
+# パッケージのインストール
 RUN pacman -S --noconfirm \
   neovim python-neovim \
   hub tmux skim ripgrep \
+  rsync whois dnsutils lsof yarn \
   dropbear
 RUN \
-  cd `sudo -u user mktemp -d`;\
-  curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/peco.tar.gz | sudo -u user tar zxf - --strip=1;\
-  sudo -u user makepkg --noconfirm;\
-  pacman -U --noconfirm ./peco*.pkg.tar.xz
+  for pkgname in anyenv direnv ghq man-pages-ja; do\
+    cd `sudo -u user mktemp -d`;\
+    curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/${pkgname}.tar.gz | sudo -u user tar zxf - --strip=1;\
+    sudo -u user makepkg --noconfirm;\
+    pacman -U --noconfirm ./${pkgname}*.pkg.tar.xz;\
+  done
 
 # ユーザから特権を剥奪する
 RUN rm /etc/sudoers.d/temp
