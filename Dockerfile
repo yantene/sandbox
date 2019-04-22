@@ -4,7 +4,7 @@ MAINTAINER yantene <contact@yantene.net>
 # 必要最低限のパッケージインストール
 RUN \
   pacman -Syy --noconfirm;\
-  pacman -S --noconfirm base-devel git go wget zsh
+  pacman -S --noconfirm base base-devel git go wget zsh
 
 # ユーザ作成
 RUN \
