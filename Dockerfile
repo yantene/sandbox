@@ -31,8 +31,8 @@ RUN pacman -S --noconfirm \
   neovim python-neovim \
   hub tmux skim ripgrep \
   rsync whois dnsutils lsof yarn \
-  dropbear; \
-  for pkgname in anyenv direnv ghq man-pages-ja; do\
+  dropbear
+RUN for pkgname in anyenv direnv ghq man-pages-ja; do\
     tmpdir=`sudo -u user mktemp -d`;\
     cd ${tmpdir};\
     curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/${pkgname}.tar.gz | sudo -u user tar zxf - --strip=1;\
@@ -58,6 +58,9 @@ RUN rm -f /home/user/.bash*
 RUN \
   sudo -u user git clone https://github.com/yantene/config /home/user/.config;\
   sudo -u user ln -s /home/user/.config/zsh/.zshenv /home/user/.zshenv
+
+# /home/user のアーカイブ作成 (ボリュームマウント時用)
+RUN tar zcf /opt/home.tgz -C /home/user .config .zshenv
 
 EXPOSE 22
 ENTRYPOINT ["/usr/bin/dropbear", "-F", "-P", "/run/dropbear.pid", "-R"]
