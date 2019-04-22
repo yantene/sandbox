@@ -46,8 +46,8 @@ RUN rm /etc/sudoers.d/temp
 
 # システム設定
 RUN \
-  sed -i 's/^#\(ja_JP.UTF-8 UTF-8.*\)$/\1/g' /etc/locale.gen;\
-  sed -i 's/^#\(en_US.UTF-8 UTF-8.*\)$/\1/g' /etc/locale.gen;\
+  echo 'ja_JP.UTF-8 UTF-8' > /etc/locale.gen;\
+  echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen;\
   echo 'LANG=ja_JP.UTF-8' > /etc/locale.conf;\
   locale-gen
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
