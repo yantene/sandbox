@@ -28,7 +28,7 @@ RUN \
 
 # パッケージのインストール
 RUN pacman -S --noconfirm \
-  neovim python-neovim \
+  zsh-syntax-highlighting neovim python-neovim \
   hub tmux skim ripgrep exa bat \
   man-pages man-db htop \
   rsync whois dnsutils bind-tools lsof yarn \
