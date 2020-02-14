@@ -29,8 +29,9 @@ RUN \
 # パッケージのインストール
 RUN pacman -S --noconfirm \
   neovim python-neovim \
-  hub tmux skim ripgrep \
-  rsync whois dnsutils lsof yarn \
+  hub tmux skim ripgrep exa bat \
+  man-pages man-db htop \
+  rsync whois dnsutils bind-tools lsof yarn \
   dropbear
 RUN for pkgname in anyenv direnv ghq man-pages-ja; do\
     tmpdir=`sudo -u user mktemp -d`;\
@@ -64,3 +65,7 @@ RUN tar zcf /opt/home.tgz -C /home/user .config .zshenv
 
 EXPOSE 22
 ENTRYPOINT ["/usr/bin/dropbear", "-F", "-P", "/run/dropbear.pid", "-R"]
+
+# e.g.
+# docker run -d -p 2222:22 -v `pwd`:/mnt yantene/sandbox
+# ssh -o 'StrictHostKeyChecking no' user@localhost -p 2222 # password: P455w0rd
