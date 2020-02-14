@@ -52,6 +52,7 @@ RUN \
   echo 'LANG=ja_JP.UTF-8' > /etc/locale.conf;\
   locale-gen
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+RUN sed -i 's/^#Color$/Color/' /etc/pacman.conf
 
 # 作業環境構築
 RUN chsh -s /bin/zsh user
@@ -68,4 +69,4 @@ ENTRYPOINT ["/usr/bin/dropbear", "-F", "-P", "/run/dropbear.pid", "-R"]
 
 # e.g.
 # docker run -d -p 2222:22 -v `pwd`:/mnt yantene/sandbox
-# ssh -o 'StrictHostKeyChecking no' user@localhost -p 2222 # password: P455w0rd
+# ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' user@localhost -p 2222 # password: P455w0rd
