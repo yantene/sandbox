@@ -9,7 +9,7 @@ RUN \
 # ユーザ作成
 RUN \
   useradd -m -g users -G wheel user;\
-  echo 'user:P455w0rd' | /usr/bin/chpasswd
+  echo 'user:password' | /usr/bin/chpasswd
 RUN \
   echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel;\
   chmod 0440 /etc/sudoers.d/wheel
@@ -69,4 +69,4 @@ ENTRYPOINT ["/usr/bin/dropbear", "-F", "-P", "/run/dropbear.pid", "-R"]
 
 # e.g.
 # docker run -d -p 2222:22 -v `pwd`:/mnt yantene/sandbox
-# ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' user@localhost -p 2222 # password: P455w0rd
+# ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' user@localhost -p 2222 # password: password
